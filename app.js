@@ -6,16 +6,12 @@ app.engine('html', require('ejs').__express);
 app.set('view engine', 'html');
 app.use(express.static(__dirname + '/public'));
 
-app.get('/', function (req, res) {
-  res.render('index');
-});
-
 // Generate a random cookie secret for this app
 var generateCookieSecret = function () {
   return 'iamasecret' + uuid.v4();
 };
 
-// TODO (Part 3) - Use the cookieSession middleware. Th above function
+// TODO (Part 3) - Use the cookieSession middleware. The above function
 // can be used to generate a secret key. Make sure that you're not accidentally
 // passing the function itself - you need to call it to get a string.
 var cookieSession = require('cookie-session');
@@ -31,19 +27,22 @@ app.use(bodyParser.urlencoded({
 // preceded only by necessary middleware functions.
 // DO NOT mount an 'authenticating' middleware function in a separate call to use().
 // For instance, the API routes require a valid key, so mount checkValidKey and apiRouter in the same call.
+
+
 var loginRouter = require('./routes/login');
 app.use('/', loginRouter);
 
 var keysRouter = require('./routes/keys');
-var apiRouter = require('./routes/api');
-
 app.use('/', keysRouter);
+
 var checkValidKeyRouter = require('./middlewares/checkValidKey');
+var apiRouter = require('./routes/api');
 app.use('/api', checkValidKeyRouter, apiRouter);
 
 var authenticateRouter = require('./middlewares/isAuthenticated');
 var reviewRouter = require('./routes/reviews');
 app.use('/reviews', authenticateRouter, reviewRouter);
+
 // Mount your error-handling middleware.
 // Please mount each middleware function with a separate use() call.
 var errorRouter = require('./middlewares/handleError');
