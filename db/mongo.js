@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/cis197hw6', function (err) {
+mongoose.connect('mongodb://localhost/cis197-project', function (err) {
   if (err && err.message.includes('ECONNREFUSED')) {
     console.log('Error connecting to mongodb database: %s.\nIs "mongod" running?', err.message);
     process.exit(0);
