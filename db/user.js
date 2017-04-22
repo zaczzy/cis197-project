@@ -53,16 +53,17 @@ userSchema.statics.checkIfLegit = function (username, password, cb) {
 };
 
 userSchema.statics.updateAdmin = function (username, password, cb) {
-  this.find({name: username}, function (e, user) {
+  this.findOne({username: username}, function (e, user) {
     if (e) cb(e);
     if (!user) cb('no user');
     else {
       user.password = password;
+      user.save(function (err) {
+        if (err) throw err;
+        console.log('Admin password successfully updated!');
+        cb(null);
+      });
     }
-    user.save(function (err) {
-      if (err) throw err;
-      console.log('Admin password successfully updated!');
-    });
   });
 };
 var user = mongoose.model('User', userSchema);

@@ -82,7 +82,7 @@ router.get('/registerAdmin', function (req, res, next) {
 
 router.post('/registerAdmin', function (req, res, next) {
   User.updateAdmin(req.body.username, req.body.password, function (err) {
-    if (err) res.send('error' + err);
+    if (err) res.send('Error: ' + err);
     else res.send('admin password changed!');
   });
 });
