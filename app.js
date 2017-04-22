@@ -11,7 +11,7 @@ var generateCookieSecret = function () {
   return 'iamasecret' + uuid.v4();
 };
 
-// TODO (Part 3) - Use the cookieSession middleware. The above function
+// (Part 3) - Use the cookieSession middleware. The above function
 // can be used to generate a secret key. Make sure that you're not accidentally
 // passing the function itself - you need to call it to get a string.
 var cookieSession = require('cookie-session');

@@ -1,4 +1,4 @@
-// TODO: Write the handleError middleware.
+// Write the handleError middleware.
 // This function must be an express error handling middleware
 
 var handleError = function (error, req, res, next) {

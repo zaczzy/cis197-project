@@ -1,5 +1,5 @@
 /*
- TODO: Write the isAuthenticated middleware.
+ Write the isAuthenticated middleware.
  This function should be a regular Express middleware which calls next()
  if the request is authenticated, and if not, redirects to '/loginAdmin'.
  

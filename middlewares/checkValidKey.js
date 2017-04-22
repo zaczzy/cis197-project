@@ -8,8 +8,7 @@ var isAPIKeyValid = function (apiKey, callback) {
   keysDb.containsKey(apiKey, callback);
 };
 
-/* TODO: Implement the checkValidKey middleware function.
- Check if the API key associated with a request is valid.
+/* Check if the API key associated with a request is valid.
  If valid, go on to the next middleware in the chain.
  If invalid, set response status to 403 (forbidden) and pass a new Error('Invalid key') to next().
  
