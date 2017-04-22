@@ -1,15 +1,6 @@
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/cis197-project-data', function (err) {
-  if (err && err.message.includes('ECONNREFUSED')) {
-    console.log('Error connecting to mongodb database: %s.\nIs "mongod" running?', err.message);
-    process.exit(0);
-  } else if (err) {
-    throw err;
-  } else {
-    console.log('DB successfully connected. Adding seed data...');
-  }
-});
-
+var User = require('./user');
+var mongoose = User.mongoose;
+var user = User.user;
 var db = mongoose.connection;
 
 var keySchema = new mongoose.Schema({
@@ -30,5 +21,6 @@ module.exports = {
   Key: Key,
   Reviews: Reviews,
   mongoose: mongoose,
-  db: db.collection('Reviews')
+  db: db.collection('Reviews'),
+  user: user
 };

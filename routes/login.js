@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var User = require('./db/User');
+var User = require('../db/mongo').user;
 
 // Implement the routes.
 router.get('/', function (req, res) {
@@ -24,15 +24,13 @@ router.post('/login', function (req, res) {
     } else {
       if (isRight) {
         req.session.username = username;
-        res.redirect('/protected');
+        res.redirect('/index');
       } else {
         res.send('wrong password');
       }
     }
   });
-  
 });
-
 router.get('/register', function (req, res) {
   res.render('register');
 });
@@ -43,6 +41,7 @@ router.post('/register', function (req, res) {
     else res.send('new user registered with username ' + req.body.username);
   });
 });
+
 
 router.get('/logout', function (req, res) {
   req.session.username = '';
@@ -57,7 +56,7 @@ router.get('/index', function (req, res) {
 });
 
 router.get('/loginAdmin', function (req, res, next) {
-  res.render('adminlogin');
+  res.render('admin-login');
 });
 
 router.post('/loginAdmin', function (req, res, next) {
@@ -71,9 +70,20 @@ router.post('/loginAdmin', function (req, res, next) {
         req.session.username = username;
         res.redirect('/index');
       } else {
-        res.send('wrong password');
+        res.send('wrong admin password');
       }
     }
+  });
+});
+
+router.get('/registerAdmin', function (req, res, next) {
+  res.render('admin-register');
+});
+
+router.post('/registerAdmin', function (req, res, next) {
+  User.updateAdmin(req.body.username, req.body.password, function (err) {
+    if (err) res.send('error' + err);
+    else res.send('admin password changed!');
   });
 });
 module.exports = router;

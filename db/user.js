@@ -1,12 +1,18 @@
-/**
- * Created by zac_zhao on 4/16/17.
- */
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/cis197-project-users');
-var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
 
-var userSchema = new Schema({
+mongoose.connect('mongodb://localhost/cis197-project-data', function (err) {
+  if (err && err.message.includes('ECONNREFUSED')) {
+    console.log('Error connecting to mongodb database: %s.\nIs "mongod" running?', err.message);
+    process.exit(0);
+  } else if (err) {
+    throw err;
+  } else {
+    console.log('DB successfully connected. Adding seed data...');
+  }
+});
+
+var userSchema = new mongoose.Schema({
   username: {type: String, required: true, unique: true},
   password: {type: String, required: true}
 });
@@ -46,4 +52,22 @@ userSchema.statics.checkIfLegit = function (username, password, cb) {
   });
 };
 
-module.exports = mongoose.model('User', userSchema);
+userSchema.statics.updateAdmin = function (username, password, cb) {
+  this.find({name: username}, function (e, user) {
+    if (e) cb(e);
+    if (!user) cb('no user');
+    else {
+      user.password = password;
+    }
+    user.save(function (err) {
+      if (err) throw err;
+      console.log('Admin password successfully updated!');
+    });
+  });
+};
+var user = mongoose.model('User', userSchema);
+
+module.exports = {
+  mongoose: mongoose,
+  user: user
+};
