@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../db/mongo').user;
-
+var bootstrap = require('bootstrap');
 // Implement the routes.
 router.get('/', function (req, res) {
   if (req.session.username && req.session.username !== '') {
