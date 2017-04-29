@@ -9,19 +9,17 @@ router.get('/new', function (req, res, next) {
   res.render('addreview');
 });
 router.post('/new', function (req, res, next) {
-  if (req.body.className === '' || req.body.semester === '' || req.body.rating === '' || req.body.text === '') {
+  if (req.body.title === '' || req.body.text === '') {
     res.redirect('/reviews/new');
   } else {
     reviewsDb.addReview({
-      className: req.body.className,
-      semester: req.body.semester,
-      rating: Number(req.body.rating),
+      title: req.body.title,
       text: req.body.text
     }, function (error) {
       if (error) {
         next(error);
       } else {
-        res.send('Successfully added a review!');
+        res.send('Successfully added an article!');
       }
     });
   }

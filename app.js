@@ -28,20 +28,14 @@ app.use(bodyParser.urlencoded({
 // DO NOT mount an 'authenticating' middleware function in a separate call to use().
 // For instance, the API routes require a valid key, so mount checkValidKey and apiRouter in the same call.
 
-
 var loginRouter = require('./routes/login');
 app.use('/', loginRouter);
 
-var keysRouter = require('./routes/keys');
-app.use('/', keysRouter);
-
-var checkValidKeyRouter = require('./middlewares/checkValidKey');
 var apiRouter = require('./routes/api');
-app.use('/api', checkValidKeyRouter, apiRouter);
+app.use('/api', apiRouter);
 
-var authenticateRouter = require('./middlewares/isAuthenticated');
 var reviewRouter = require('./routes/reviews');
-app.use('/reviews', authenticateRouter, reviewRouter);
+app.use('/reviews', reviewRouter);
 
 // Mount your error-handling middleware.
 // Please mount each middleware function with a separate use() call.

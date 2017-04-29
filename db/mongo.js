@@ -1,26 +1,18 @@
-var User = require('./user');
-var mongoose = User.mongoose;
-var user = User.user;
-var db = mongoose.connection;
-
-var keySchema = new mongoose.Schema({
-  key: String
-});
+var user = require('./user');
+var mongoose = user.mongoose;
 
 var reviewSchema = new mongoose.Schema({
-  className: String,
-  semester: String,
-  rating: Number,
+  title: String,
   text: String
 });
 
-var Key = mongoose.model('Key', keySchema);
 var Reviews = mongoose.model('Reviews', reviewSchema);
+var User = mongoose.model('User', user.userSchema);
+var db = mongoose.connection;
 
 module.exports = {
-  Key: Key,
   Reviews: Reviews,
   mongoose: mongoose,
-  db: db.collection('Reviews'),
-  user: user
+  db: db.collection('User'),
+  User: User
 };

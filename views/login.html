@@ -1,22 +1,31 @@
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/css/style.css"/>
-<div>
-    <h3>User Login</h3>
-    <form method="post">
-        <div class="form-group">
-            <p>Username<br>
-                <input type="text" name="username" class="form-control"></p>
-        </div>
-        <p>Password<br>
-            <input type="password" name="password"></p>
-        <p><input type="submit"></p>
-        <a href="/register">Register</a>
-    </form>
-</div>
-<div>
-    <h3>Admin Login</h3>
-    <p><a href="/loginAdmin">Login</a></p>
-    <p><a href="/registerAdmin">Change Password</a></p>
-</div>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
 
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+<div class="container">
+    <h3>User Login</h3>
+    <div class="row justify-content-center">
+        <form method="post">
+            <div>
+                <p>Username<br>
+                    <input type="text" name="username" class="form-control"></p>
+                <p>Password<br>
+                    <input type="password" name="password" class="form-control"></p>
+                <p><input type="submit"></p>
+            </div>
+            <a href="/register">Register</a>
+        </form>
+    </div>
+
+    <h3>Admin Login</h3>
+    <div class="row justify-content-center">
+        <div>
+            <p><a href="/loginAdmin">Login as administrator</a></p>
+            <p><a href="/registerAdmin">Register Admin</a></p>
+            <p><a href="/setAdminPassword">Change Admin Password</a></p>
+        </div>
+    </div>
+</div>

@@ -1,20 +1,21 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 
-mongoose.connect('mongodb://localhost/cis197-project-data', function (err) {
+mongoose.connect('mongodb://localhost/project', function (err) {
   if (err && err.message.includes('ECONNREFUSED')) {
     console.log('Error connecting to mongodb database: %s.\nIs "mongod" running?', err.message);
     process.exit(0);
   } else if (err) {
     throw err;
   } else {
-    console.log('DB successfully connected. Adding seed data...');
+    console.log('DB successfully connected.');
   }
 });
 
 var userSchema = new mongoose.Schema({
   username: {type: String, required: true, unique: true},
-  password: {type: String, required: true}
+  password: {type: String, required: true},
+  admin: Boolean
 });
 
 userSchema.pre('save', function (next) {
@@ -34,9 +35,21 @@ userSchema.pre('save', function (next) {
   });
 });
 
-userSchema.statics.addUser = function (username, password, cb) {
-  var newUser = new this({username: username, password: password});
-  newUser.save(cb);
+userSchema.statics.addUser = function (username, password, isAdmin, cb) {
+  if (!isAdmin) {
+    var newUser = new this({username: username, password: password, admin: isAdmin});
+    newUser.save(cb);
+  } else {
+    this.findOne({admin: true}, function (err, user) {
+      if (err) cb(err);
+      if (!user) {
+        var newUser = new this({username: username, password: password, admin: isAdmin});
+        newUser.save(cb);
+      } else {
+        cb('An admin already exists!')
+      }
+    }.bind(this))
+  }
 };
 
 userSchema.statics.checkIfLegit = function (username, password, cb) {
@@ -52,23 +65,14 @@ userSchema.statics.checkIfLegit = function (username, password, cb) {
   });
 };
 
-userSchema.statics.updateAdmin = function (username, password, cb) {
-  this.findOne({username: username}, function (e, user) {
-    if (e) cb(e);
-    if (!user) cb('no user');
-    else {
-      user.password = password;
-      user.save(function (err) {
-        if (err) throw err;
-        console.log('Admin password successfully updated!');
-        cb(null);
-      });
-    }
+userSchema.statics.setAdminPassword = function (username, password, isAdmin, cb) {
+  this.findOne({admin: isAdmin}, function (err, user) {
+    user.password = password;
+    user.save(cb)
   });
 };
-var user = mongoose.model('User', userSchema);
 
 module.exports = {
   mongoose: mongoose,
-  user: user
+  userSchema: userSchema
 };
