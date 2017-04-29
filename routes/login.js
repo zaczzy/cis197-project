@@ -5,7 +5,7 @@ var User = require('../db/mongo').User;
 router.get('/', function (req, res) {
   if (req.session.username && req.session.username !== '') {
     if (req.session.admin) {
-      res.render('/post-articles')
+      res.render('post-articles')
     } else {
       res.redirect('/view-articles');
     }
