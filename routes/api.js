@@ -8,7 +8,7 @@ router.get('/all', function (req, res, next) {
     if (error) {
       next(error);
     } else {
-      res.render('article', {reviews: reviews});
+      res.render("article", {reviews: reviews});
     }
   });
 });

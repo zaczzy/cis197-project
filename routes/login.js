@@ -75,7 +75,7 @@ router.post('/loginAdmin', function (req, res, next) {
       if (isRight) {
         req.session.username = username;
         req.session.admin = true;
-        res.render('post-articles');
+        res.render('post-articles', {message: "Start Posting!"});
       } else {
         res.send('wrong admin password');
       }
